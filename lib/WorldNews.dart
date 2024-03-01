@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'onBoarding/LoginView.dart';
+
 class WorldNews extends StatelessWidget {
 
   @override
@@ -8,9 +10,9 @@ class WorldNews extends StatelessWidget {
     return MaterialApp(
       title: "World News",
       routes: {
-
+        "/loginView": (context) => LoginView(),
       },
-
+      initialRoute: "/loginView",
     );
   }
 }
