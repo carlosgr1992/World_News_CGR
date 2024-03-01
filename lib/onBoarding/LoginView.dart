@@ -80,7 +80,7 @@ class LoginView extends StatelessWidget {
 
   void onClickRegister(){
 
-    //Navigator.of(_context).popAndPushNamed("/registerView");
+    Navigator.of(_context).popAndPushNamed("/registerView");
 
   }
 

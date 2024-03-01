@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:world_news/onBoarding/RegisterView.dart';
 
 import 'onBoarding/LoginView.dart';
 
@@ -11,6 +12,7 @@ class WorldNews extends StatelessWidget {
       title: "World News",
       routes: {
         "/loginView": (context) => LoginView(),
+        "/registerView": (context) => RegisterView(),
       },
       initialRoute: "/loginView",
     );
