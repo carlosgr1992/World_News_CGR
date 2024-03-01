@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286132023182",
+    "project_id": "worldnews-f9144",
+    "storage_bucket": "worldnews-f9144.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286132023182:android:6d464d43905e0a00b9fedf",
+        "android_client_info": {
+          "package_name": "rf6.CGR.world_news"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH77dxHycD2QAnPNXj_JR7XffM4u2OcR8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
