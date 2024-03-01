@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../customViews/TextButtonCustom.dart';
+import '../singletone/DataHolder.dart';
 
 
 class LoginView extends StatelessWidget {
@@ -85,7 +86,7 @@ class LoginView extends StatelessWidget {
   }
 
   void onClickLogin() async {
-   /* String email = tecEmailController.text;
+    String email = tecEmailController.text;
     String password = tecPassController.text;
 
     // Realizar autenticación con FirebaseAdmin
@@ -101,6 +102,6 @@ class LoginView extends StatelessWidget {
         duration: Duration(seconds: 3),
       );
       ScaffoldMessenger.of(_context).showSnackBar(snackBar);
-    } */
+    }
   }
 }
