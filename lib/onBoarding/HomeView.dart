@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../apis/NoticiasAPI.dart';
 import '../customViews/DrawerCustom.dart';
 import '../fireStoreObjects/Noticia.dart';
+import 'DetalleNoticiaView.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -94,28 +95,32 @@ class _HomeViewState extends State<HomeView> {
       itemCount: _noticias.length,
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
-        return ListTile(
-
-          leading: SizedBox(
-            width: 100,
-            height: 56,
-            child: Image.network(
-              noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover);
-              },
+        return GestureDetector( // Envuelve el ListTile con GestureDetector
+          onTap: () {
+            _mostrarDetallesNoticia(noticia); // Llama a la función para mostrar los detalles de la noticia
+          },
+          child: ListTile(
+            leading: SizedBox(
+              width: 100,
+              height: 56,
+              child: Image.network(
+                noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover);
+                },
+              ),
             ),
-          ),
-          title: Text(
-            noticia.titulo,
-            maxLines: 2, // Limita el título a tres líneas
-            overflow: TextOverflow.ellipsis, // Muestra puntos suspensivos si se excede el espacio
-          ),
-          subtitle: Text(
-            noticia.descripcion,
-            maxLines: 1, // Limita la descripción a tres líneas
-            overflow: TextOverflow.ellipsis, // Muestra puntos suspensivos si se excede el espacio
+            title: Text(
+              noticia.titulo,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(
+              noticia.descripcion,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         );
       },
@@ -129,15 +134,16 @@ class _HomeViewState extends State<HomeView> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 1, // Ajusta esto según tus necesidades
+        childAspectRatio: 1,
       ),
       itemCount: _noticias.length,
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
         var imageUrl = noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg';
-
-        return GestureDetector(
-
+        return GestureDetector( // Envuelve el Card con GestureDetector
+          onTap: () {
+            _mostrarDetallesNoticia(noticia); // Llama a la función para mostrar los detalles de la noticia
+          },
           child: Card(
             clipBehavior: Clip.antiAlias,
             child: Column(
@@ -148,7 +154,6 @@ class _HomeViewState extends State<HomeView> {
                     imageUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
-                      // Si la imagen de la red falla, se muestra la imagen de reserva
                       return Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover);
                     },
                   ),
@@ -170,5 +175,8 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  void _mostrarDetallesNoticia(Noticia noticia) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetalleNoticiaView(noticia: noticia))); // Navega a la vista de detalles de la noticia
+  }
 
 }

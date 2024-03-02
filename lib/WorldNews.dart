@@ -6,6 +6,8 @@ import 'package:world_news/onBoarding/RegisterView.dart';
 import 'package:world_news/onBoarding/LoginView.dart';
 import 'package:world_news/onBoarding/Splash.dart';
 
+import 'onBoarding/DetalleNoticiaView.dart';
+
 class WorldNews extends StatelessWidget {
 
   @override
@@ -18,6 +20,7 @@ class WorldNews extends StatelessWidget {
         "/homeView": (context) => HomeView(),
         "/splashView": (context) => Splash(),
         "/registerDataUser": (context) => RegisterDataUser(),
+        '/detalleNoticiaView': (context) => DetalleNoticiaView(),
       },
       initialRoute: "/loginView",
     );

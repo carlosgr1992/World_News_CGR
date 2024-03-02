@@ -121,9 +121,6 @@ class RegisterView extends StatelessWidget{
     }
   }
 
-
-
-
   void onClickCancelar(){
 
     Navigator.of(_context).popAndPushNamed("/loginView");
