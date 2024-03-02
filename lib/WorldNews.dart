@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:world_news/onBoarding/HomeView.dart';
+import 'package:world_news/onBoarding/RegisterDataUser.dart';
 import 'package:world_news/onBoarding/RegisterView.dart';
 
 import 'onBoarding/LoginView.dart';

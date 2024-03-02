@@ -36,5 +36,14 @@ class FirebaseAdmin {
     return null;
   }
 
+  // Cargar usuario
+  Future<void> updateUser(String id, String nombre, String apellidos, int edad) async {
+    await FirebaseFirestore.instance.collection('Usuarios').doc(id).update({
+      'nombre': nombre,
+      'apellidos': apellidos,
+      'edad': edad,
+    });
+  }
+
 
 }
