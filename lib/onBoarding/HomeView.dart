@@ -10,17 +10,20 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   List<Noticia> _noticias = [];
-  bool isList = true; // Predeterminado a true para mostrar ListView
+  bool isList = false; // Predeterminado a false para mostrar GridView
+
+  List<String> categorias = ['negocios', 'entretenimiento', 'todos', 'salud', 'ciencia', 'deportes', 'tecnologia'];
+  String? categoriaSeleccionada = 'todos'; // Valor inicial.
 
   @override
   void initState() {
     super.initState();
-    _cargarNoticias();
+    _cargarNoticias(categoriaSeleccionada!); // Carga inicial de noticias.
   }
 
-  _cargarNoticias() async {
+  _cargarNoticias(String categoria) async {
     var noticiasApi = NoticiasAPI();
-    var noticias = await noticiasApi.getTopHeadlines();
+    var noticias = await noticiasApi.getNoticiasPorCategoria(categoria);
     setState(() {
       _noticias = noticias;
     });
@@ -32,8 +35,46 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         title: Text('Noticias'),
       ),
-      drawer: DrawerCustom(), // Agregamos el Drawer
-      body: isList ? _buildListView() : _buildGridView(),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Filtrar por categoría:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: categoriaSeleccionada,
+                    onChanged: (String? nuevaCategoria) {
+                      if (nuevaCategoria != null) {
+                        setState(() {
+                          categoriaSeleccionada = nuevaCategoria;
+                          _cargarNoticias(nuevaCategoria);
+                        });
+                      }
+                    },
+                    items: categorias.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: isList ? _buildListView() : _buildGridView(),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(isList ? Icons.grid_on : Icons.list),
         onPressed: () {
@@ -44,6 +85,7 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
+
 
 
   Widget _buildListView() {
@@ -85,7 +127,8 @@ class _HomeViewState extends State<HomeView> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 1, // Ajusta esto según tus necesidades
+        childAspectRatio: 1,
+        // Ajusta esto según tus necesidades
       ),
       itemCount: _noticias.length,
       itemBuilder: (context, index) {

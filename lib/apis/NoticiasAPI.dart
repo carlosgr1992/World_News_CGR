@@ -19,4 +19,20 @@ class NoticiasAPI {
       throw Exception('Failed to load top headlines');
     }
   }
+
+  // Cargar filtros por categorías
+  Future<List<Noticia>> getNoticiasPorCategoria(String categoria) async {
+    final url = Uri.parse('$_baseUrl/everything?q=$categoria&language=es&apiKey=$_apiKey');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> decodedData = json.decode(response.body);
+      final List<dynamic> articles = decodedData['articles'];
+      return articles.map<Noticia>((json) => Noticia.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load news for category $categoria in Spanish');
+    }
+  }
+
+
 }
