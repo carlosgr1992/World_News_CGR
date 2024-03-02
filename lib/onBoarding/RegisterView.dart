@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../customViews/TextButtonCustom.dart';
+import '../singletone/FireBaseAdmin.dart';
 
 
 class RegisterView extends StatelessWidget{
@@ -95,53 +96,33 @@ class RegisterView extends StatelessWidget{
   }
 
   void onClickRegistrarse() async {
-
-    if (tecUser.text.isEmpty ||
-        tecPassword.text.isEmpty ||
-        tecRepeatPassword.text.isEmpty) {
-      ScaffoldMessenger.of(_context).showSnackBar(SnackBar(
-        content: Text("Por favor, rellena todos los campos"),
-        duration: Duration(seconds: 2),
-      ));
-    }
-
-    if (tecPassword.text == tecRepeatPassword.text) {
+    if(tecPassword.text==tecRepeatPassword.text) {
       try {
+
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: tecUser.text,
           password: tecPassword.text,
         );
 
-        Navigator.of(_context).pushNamed("/homeView");
+        Navigator.of(_context).pushNamed("/loginView");
 
-        ScaffoldMessenger.of(_context).showSnackBar(SnackBar(
-          content: Text("¡Cuenta creada con exito!"),
-          duration: Duration(seconds: 2),
-        ));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
-          ScaffoldMessenger.of(_context).showSnackBar(SnackBar(
-            content: Text("Contraseña demasiado corta"),
-            duration: Duration(seconds: 2),
-          ));
+          print('The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
-          ScaffoldMessenger.of(_context).showSnackBar(SnackBar(
-            content: Text("La cuenta ya existe."),
-            duration: Duration(seconds: 2),
-          ));
+          print('The account already exists for that email.');
         }
       } catch (e) {
         print(e);
       }
-    } else if (tecPassword.text != tecRepeatPassword.text) {
-      ScaffoldMessenger.of(_context).showSnackBar(
-        SnackBar(
-          content: Text("Las contraseñas no coinciden"),
-          duration: Duration(seconds: 2),
-        ),
-      );
+    }
+    else{
+      ScaffoldMessenger.of(_context).showSnackBar('Las contraseñas no coinciden' as SnackBar);
     }
   }
+
+
+
 
   void onClickCancelar(){
 

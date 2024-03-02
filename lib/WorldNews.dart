@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:world_news/onBoarding/HomeView.dart';
 import 'package:world_news/onBoarding/RegisterDataUser.dart';
 import 'package:world_news/onBoarding/RegisterView.dart';
-
-import 'onBoarding/LoginView.dart';
-import 'onBoarding/Splash.dart';
+import 'package:world_news/onBoarding/LoginView.dart';
+import 'package:world_news/onBoarding/Splash.dart';
 
 class WorldNews extends StatelessWidget {
 
@@ -18,8 +17,9 @@ class WorldNews extends StatelessWidget {
         "/registerView": (context) => RegisterView(),
         "/homeView": (context) => HomeView(),
         "/splashView": (context) => Splash(),
+        "/registerDataUser": (context) => RegisterDataUser(),
       },
-      initialRoute: "/splashView",
+      initialRoute: "/loginView",
     );
   }
 }

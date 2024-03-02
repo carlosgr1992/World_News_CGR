@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -5,11 +7,6 @@ import '../fireStoreObjects/FbUsuario.dart';
 import '../singletone/FireBaseAdmin.dart';
 
 class RegisterDataUser extends StatefulWidget {
-  final FbUsuario usuario;
-  final String uid;
-
-  RegisterDataUser({required this.usuario, required this.uid});
-
   @override
   _RegisterDataUserState createState() => _RegisterDataUserState();
 }
@@ -18,13 +15,11 @@ class _RegisterDataUserState extends State<RegisterDataUser> {
   final _nombreController = TextEditingController();
   final _apellidosController = TextEditingController();
   final _edadController = TextEditingController();
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    _nombreController.text = widget.usuario.nombre;
-    _apellidosController.text = widget.usuario.apellidos;
-    _edadController.text = widget.usuario.edad.toString();
   }
 
   @override
@@ -62,13 +57,11 @@ class _RegisterDataUserState extends State<RegisterDataUser> {
   }
 
   void _updateUser() async {
-    var firebaseAdmin = FirebaseAdmin();
-    await firebaseAdmin.updateUser(
-      widget.uid,
-      _nombreController.text,
-      _apellidosController.text,
-      int.parse(_edadController.text),
-    );
+
+    FbUsuario usuario = FbUsuario(nombre: _nombreController.text,apellidos: _apellidosController.text,edad: int.parse(_edadController.text));
+
+    String userUid = FirebaseAuth.instance.currentUser!.uid;
+    await db.collection("Usuarios").doc(userUid).set(usuario.toFirestore());
 
     Navigator.of(context).popAndPushNamed("/homeView");
   }

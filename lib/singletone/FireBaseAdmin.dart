@@ -10,6 +10,11 @@ class FirebaseAdmin {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  // Obtener el usuario actualmente autenticado
+  Future<User?> getCurrentUser() async {
+    return _auth.currentUser;
+  }
+
   // Logearse
   Future<User?> signIn(String email, String password) async {
     try {
@@ -20,23 +25,33 @@ class FirebaseAdmin {
       return null;
     }
   }
-
+  late FbUsuario fireBaseUser;
   // Cargar usuario
   Future<FbUsuario?> loadFbUsuario() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-
-    if (currentUser != null) {
-      try {
-        var snapshot = await FirebaseFirestore.instance.collection('Usuarios').doc(currentUser.uid).get();
-        return FbUsuario.fromFirestore(snapshot);
-      } catch (e) {
-        print('Error al cargar el usuario: $e');
-      }
+    var currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      return null;
     }
-    return null;
+    String uid = currentUser.uid;
+
+    DocumentReference<FbUsuario> ref = db.collection("Usuarios").doc(uid).withConverter(
+      fromFirestore: (snapshot, _) => FbUsuario.fromFirestore(snapshot, null),
+      toFirestore: (user, _) => user.toFirestore(),
+    );
+
+    DocumentSnapshot<FbUsuario> docSnap = await ref.get();
+    FbUsuario? user = docSnap.data();
+
+    if (user == null) {
+      return null;
+    }
+
+    return user;
   }
 
-  // Cargar usuario
+
+
+  // Actualizar usuario
   Future<void> updateUser(String id, String nombre, String apellidos, int edad) async {
     await FirebaseFirestore.instance.collection('Usuarios').doc(id).update({
       'nombre': nombre,
@@ -45,5 +60,19 @@ class FirebaseAdmin {
     });
   }
 
+  // Agregar usuario a la BBDD
+  Future<String> addUser(String nombre, String apellidos, int edad) async {
+    try {
+      var docRef = await FirebaseFirestore.instance.collection('Usuarios').add({
+        'nombre': nombre,
+        'apellidos': apellidos,
+        'edad': edad,
+      });
+      return docRef.id; // Retorna el ID del documento creado
+    } catch (e) {
+      print('Error al añadir usuario a Firestore: $e');
+      throw e;
+    }
+  }
 
 }

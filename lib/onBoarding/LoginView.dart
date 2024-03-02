@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../customViews/TextButtonCustom.dart';
+import '../fireStoreObjects/FbUsuario.dart';
 import '../singletone/DataHolder.dart';
 
 
@@ -86,22 +87,29 @@ class LoginView extends StatelessWidget {
   }
 
   void onClickLogin() async {
-    String email = tecEmailController.text;
-    String password = tecPassController.text;
-
-    // Realizar autenticación con FirebaseAdmin
-    User? user = await DataHolder.firebaseAdmin.signIn(email, password);
-
-    if (user != null) {
-      // Usuario autenticado correctamente
-      Navigator.of(_context).popAndPushNamed("/homeView");
-    } else {
-      // Mostrar Snackbar indicando que el usuario no existe
-      final snackBar = SnackBar(
-        content: Text('Usuario o contraseña incorrectos'),
-        duration: Duration(seconds: 3),
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: tecEmailController.text,
+          password: tecPassController.text
       );
-      ScaffoldMessenger.of(_context).showSnackBar(snackBar);
+      FbUsuario? user = await DataHolder.firebaseAdmin.loadFbUsuario();
+
+      if (user != null) {
+        Navigator.of(_context).popAndPushNamed("/homeView");
+      }
+      else {
+        Navigator.of(_context).popAndPushNamed("/registerDataUser");
+      }
+    } on FirebaseAuthException catch (e) {
+      print('Entro en el catch');
+      print('No user found for that email.');
+      if (e.code == 'user-not-found') {
+        print('Correo no encontrado.');
+      } else if (e.code == 'wrong-password') {
+        print('Contraseña incorrecta.');
+      } else if (e.code == 'user-not-found' && e.code == 'wrong-password') {
+        print('Correo y contraseña incorrecta.');
+      }
     }
   }
-}
+  }

@@ -1,25 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FbUsuario {
-  final String id;
   final String nombre;
   final String apellidos;
   final int edad;
 
   FbUsuario({
-    this.id = '',
     required this.nombre,
     required this.apellidos,
     required this.edad,
   });
 
-  factory FbUsuario.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    var data = snapshot.data() ?? {}; //Usa un mapa vacío si no hay datos
+  factory FbUsuario.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options,) {
+
+    final data = snapshot.data();
     return FbUsuario(
-      id: snapshot.id,
-      nombre: data['nombre'] ?? "",
-      apellidos: data['apellidos'] ?? "",
-      edad: data['edad'] ?? 0,
+      nombre: data?['nombre'] != null ? data!['nombre']: "",
+      apellidos: data?['apellidos'] != null ? data!['apellidos']: "",
+      edad: data?['edad'] != null ? data!['edad']: 0,
     );
   }
 
