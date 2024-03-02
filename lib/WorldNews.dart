@@ -4,6 +4,7 @@ import 'package:world_news/onBoarding/HomeView.dart';
 import 'package:world_news/onBoarding/RegisterView.dart';
 
 import 'onBoarding/LoginView.dart';
+import 'onBoarding/Splash.dart';
 
 class WorldNews extends StatelessWidget {
 
@@ -15,8 +16,9 @@ class WorldNews extends StatelessWidget {
         "/loginView": (context) => LoginView(),
         "/registerView": (context) => RegisterView(),
         "/homeView": (context) => HomeView(),
+        "/splashView": (context) => Splash(),
       },
-      initialRoute: "/homeView",
+      initialRoute: "/splashView",
     );
   }
 }
