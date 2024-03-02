@@ -35,6 +35,7 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         title: Text('Noticias'),
       ),
+      drawer: DrawerCustom(),
       body: Column(
         children: [
           Padding(
@@ -94,6 +95,7 @@ class _HomeViewState extends State<HomeView> {
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
         return ListTile(
+
           leading: SizedBox(
             width: 100,
             height: 56,
@@ -127,48 +129,46 @@ class _HomeViewState extends State<HomeView> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 1,
-        // Ajusta esto según tus necesidades
+        childAspectRatio: 1, // Ajusta esto según tus necesidades
       ),
       itemCount: _noticias.length,
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
-        var imageUrl = noticia.urlImagen.isNotEmpty ? noticia.urlImagen : null;
+        var imageUrl = noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg';
 
-        return Card(
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                child: imageUrl != null
-                    ? Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    // Si la imagen de la red falla, se muestra la imagen de reserva
-                    return Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover);
-                  },
-                )
-                    : Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover), // Imagen de reserva
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  noticia.titulo,
-                  style: Theme.of(context).textTheme.headline6,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+        return GestureDetector(
+
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      // Si la imagen de la red falla, se muestra la imagen de reserva
+                      return Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover);
+                    },
+                  ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    noticia.titulo,
+                    style: Theme.of(context).textTheme.headline6,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
-
-
 
 
 }
