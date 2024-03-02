@@ -13,5 +13,10 @@ class Noticia {
     required this.urlNoticia
 });
 
+  Noticia.fromJson(Map<String, dynamic> json)
+      : titulo = json['title'],
+        descripcion = json['description'],
+        urlImagen = json['urlToImage'],
+        urlNoticia = json['url'];
 
 }
