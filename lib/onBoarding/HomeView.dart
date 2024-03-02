@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../apis/NoticiasAPI.dart';
+import '../customViews/DrawerCustom.dart';
 import '../fireStoreObjects/Noticia.dart';
 
 class HomeView extends StatefulWidget {
@@ -31,8 +32,8 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         title: Text('Noticias'),
       ),
+      drawer: DrawerCustom(), // Agregamos el Drawer
       body: isList ? _buildListView() : _buildGridView(),
-      // Botón para alternar entre vistas
       floatingActionButton: FloatingActionButton(
         child: Icon(isList ? Icons.grid_on : Icons.list),
         onPressed: () {
@@ -44,6 +45,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+
   Widget _buildListView() {
     return ListView.builder(
       itemCount: _noticias.length,
@@ -52,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
         return ListTile(
           leading: SizedBox(
             width: 100,
-            height: 56, // Ajustamos un tamaño porque da errores al quererse expandir más de lo debido
+            height: 56,
             child: Image.network(
               noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg',
               fit: BoxFit.cover,
@@ -61,12 +63,21 @@ class _HomeViewState extends State<HomeView> {
               },
             ),
           ),
-          title: Text(noticia.titulo),
-          subtitle: Text(noticia.descripcion),
+          title: Text(
+            noticia.titulo,
+            maxLines: 2, // Limita el título a tres líneas
+            overflow: TextOverflow.ellipsis, // Muestra puntos suspensivos si se excede el espacio
+          ),
+          subtitle: Text(
+            noticia.descripcion,
+            maxLines: 1, // Limita la descripción a tres líneas
+            overflow: TextOverflow.ellipsis, // Muestra puntos suspensivos si se excede el espacio
+          ),
         );
       },
     );
   }
+
 
 
 
