@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../fireStoreObjects/FbUsuario.dart';
+
 class DrawerCustom extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -30,6 +32,13 @@ class DrawerCustom extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
+          ),
+          ListTile(
+            leading: Icon(Icons.star),
+            title: Text('Noticias Favoritas'),
+            onTap: () {
+              //Navigator.of(context).popAndPushNamed("/homeView"); LLEVARME A UNA PANTALLA DONDE SOLO MUESTRE LAS FAVORITAS
+            },
           ),
           ListTile(
             leading: Icon(Icons.home),
