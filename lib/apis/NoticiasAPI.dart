@@ -33,6 +33,20 @@ class NoticiasAPI {
       throw Exception('Failed to load news for category $categoria in Spanish');
     }
   }
+  // Obtenemos los detalles de la noticia para el muestraFavoritosView
+  Future<Noticia> obtenerDetallesNoticia(String noticiaId) async {
+    final url = Uri.parse('$_baseUrl/everything?q=$noticiaId&apiKey=$_apiKey');
+    final response = await http.get(url);
 
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> decodedData = json.decode(response.body);
+      // Asumiendo que 'articles' es una lista de noticias
+      final Map<String, dynamic> articleData = decodedData['articles'].firstWhere((article) => article['id'] == noticiaId);
+      return Noticia.fromJson(articleData);
+    } else {
+      // Manejar el error como consideres adecuado
+      throw Exception('Error al cargar detalles de la noticia: ${response.statusCode}');
+    }
+  }
 
 }

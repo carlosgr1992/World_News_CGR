@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:world_news/onBoarding/HomeView.dart';
+import 'package:world_news/onBoarding/MuestraFavoritos.dart';
 import 'package:world_news/onBoarding/RegisterDataUser.dart';
 import 'package:world_news/onBoarding/RegisterView.dart';
 import 'package:world_news/onBoarding/LoginView.dart';
@@ -21,6 +22,7 @@ class WorldNews extends StatelessWidget {
         "/splashView": (context) => Splash(),
         "/registerDataUser": (context) => RegisterDataUser(),
         '/detalleNoticiaView': (context) => DetalleNoticiaView(),
+        '/favoritosView': (context) => MuestraFavoritos(),
       },
       initialRoute: "/loginView",
     );

@@ -37,7 +37,7 @@ class DrawerCustom extends StatelessWidget {
             leading: Icon(Icons.star),
             title: Text('Noticias Favoritas'),
             onTap: () {
-              //Navigator.of(context).popAndPushNamed("/homeView"); LLEVARME A UNA PANTALLA DONDE SOLO MUESTRE LAS FAVORITAS
+              Navigator.of(context).popAndPushNamed("/favoritosView");
             },
           ),
           ListTile(
