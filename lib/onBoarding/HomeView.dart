@@ -50,13 +50,25 @@ class _HomeViewState extends State<HomeView> {
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
         return ListTile(
-          leading: Image.network(noticia.urlImagen, width: 100, fit: BoxFit.cover),
+          leading: SizedBox(
+            width: 100,
+            height: 56, // Ajustamos un tamaño porque da errores al quererse expandir más de lo debido
+            child: Image.network(
+              noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg',
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover);
+              },
+            ),
+          ),
           title: Text(noticia.titulo),
           subtitle: Text(noticia.descripcion),
         );
       },
     );
   }
+
+
 
   Widget _buildGridView() {
     return GridView.builder(
@@ -67,14 +79,29 @@ class _HomeViewState extends State<HomeView> {
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
         return Card(
+          clipBehavior: Clip.antiAlias,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch, // Esto hará que la imagen se estire para llenar el ancho del card
             children: <Widget>[
-              Image.network(noticia.urlImagen, height: 100, fit: BoxFit.cover),
-              Text(noticia.titulo),
+              Expanded(
+                child: Image.network(
+                  noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover);
+                  },
+                ),
+              ),
+              ListTile(
+                title: Text(noticia.titulo),
+                subtitle: Text(noticia.descripcion),
+              ),
             ],
           ),
         );
       },
     );
   }
+
+
 }
