@@ -74,27 +74,38 @@ class _HomeViewState extends State<HomeView> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
+        childAspectRatio: 1, // Ajusta esto según tus necesidades
       ),
       itemCount: _noticias.length,
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
+        var imageUrl = noticia.urlImagen.isNotEmpty ? noticia.urlImagen : null;
+
         return Card(
           clipBehavior: Clip.antiAlias,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch, // Esto hará que la imagen se estire para llenar el ancho del card
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                child: Image.network(
-                  noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg',
+                child: imageUrl != null
+                    ? Image.network(
+                  imageUrl,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
+                    // Si la imagen de la red falla, se muestra la imagen de reserva
                     return Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover);
                   },
-                ),
+                )
+                    : Image.asset('images/imagenPredeterminada.jpeg', fit: BoxFit.cover), // Imagen de reserva
               ),
-              ListTile(
-                title: Text(noticia.titulo),
-                subtitle: Text(noticia.descripcion),
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  noticia.titulo,
+                  style: Theme.of(context).textTheme.headline6,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
@@ -102,6 +113,8 @@ class _HomeViewState extends State<HomeView> {
       },
     );
   }
+
+
 
 
 }

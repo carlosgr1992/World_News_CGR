@@ -7,7 +7,7 @@ class NoticiasAPI {
   final String _apiKey = '83501336736d4dcbaf95af4f2a9f1e60';
 
   Future<List<Noticia>> getTopHeadlines() async {
-    final url = Uri.parse('$_baseUrl/top-headlines?country=us&apiKey=$_apiKey');
+    final url = Uri.parse('$_baseUrl/everything?q=*&language=es&apiKey=$_apiKey');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

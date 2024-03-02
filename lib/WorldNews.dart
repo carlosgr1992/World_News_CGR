@@ -16,7 +16,7 @@ class WorldNews extends StatelessWidget {
         "/registerView": (context) => RegisterView(),
         "/homeView": (context) => HomeView(),
       },
-      initialRoute: "/loginView",
+      initialRoute: "/homeView",
     );
   }
 }
