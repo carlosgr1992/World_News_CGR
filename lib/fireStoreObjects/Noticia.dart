@@ -14,9 +14,10 @@ class Noticia {
 });
 
   Noticia.fromJson(Map<String, dynamic> json)
-      : titulo = json['title'],
-        descripcion = json['description'],
-        urlImagen = json['urlToImage'],
-        urlNoticia = json['url'];
+      : titulo = json['title'] ?? 'Título no disponible',
+        descripcion = json['description'] ?? 'Descripción no disponible',
+        urlImagen = json['urlToImage'] ?? '',
+        urlNoticia = json['url'] ?? '';
+
 
 }
