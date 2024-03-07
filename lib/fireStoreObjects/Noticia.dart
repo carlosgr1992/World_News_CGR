@@ -1,4 +1,3 @@
-
 class Noticia {
 
   final String titulo;
@@ -13,7 +12,7 @@ class Noticia {
     required this.urlImagen,
     required this.urlNoticia,
     required this.contenido,
-});
+  });
 
   Noticia.fromJson(Map<String, dynamic> json)
       : titulo = json['title'] ?? 'Título no disponible',

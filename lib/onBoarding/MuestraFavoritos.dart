@@ -24,9 +24,8 @@ class _MuestraFavoritosState extends State<MuestraFavoritos> {
   _cargarNoticiasFavoritas() async {
     User? usuario = FirebaseAuth.instance.currentUser;
     if (usuario != null) {
-      var usuarioDoc = await FirebaseFirestore.instance.collection('Usuarios').doc(usuario.uid).get();
-      var favoritos = usuarioDoc.data()?['favoritos'] ?? [];
-      var noticiasTemp = favoritos.map<Noticia>((fav) => Noticia.fromJson(fav)).toList();
+      var favoritosSnapshot = await FirebaseFirestore.instance.collection('Usuarios').doc(usuario.uid).collection('Favoritos').get();
+      var noticiasTemp = favoritosSnapshot.docs.map((doc) => Noticia.fromJson(doc.data())).toList();
       setState(() {
         _noticiasFavoritas = noticiasTemp;
         isLoading = false;
