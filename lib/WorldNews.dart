@@ -24,7 +24,7 @@ class WorldNews extends StatelessWidget {
         '/detalleNoticiaView': (context) => DetalleNoticiaView(),
         '/favoritosView': (context) => MuestraFavoritos(),
       },
-      initialRoute: "/loginView",
+      initialRoute: "/splashView",
     );
   }
 }

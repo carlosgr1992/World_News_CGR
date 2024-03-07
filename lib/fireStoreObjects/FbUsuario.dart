@@ -11,7 +11,7 @@ class FbUsuario {
     required this.edad,
   });
 
-  factory FbUsuario.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options,) {
+  factory FbUsuario.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
 
     final data = snapshot.data();
     return FbUsuario(

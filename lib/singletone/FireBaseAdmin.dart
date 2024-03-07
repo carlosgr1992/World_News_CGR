@@ -35,7 +35,7 @@ class FirebaseAdmin {
     String uid = currentUser.uid;
 
     DocumentReference<FbUsuario> ref = db.collection("Usuarios").doc(uid).withConverter(
-      fromFirestore: (snapshot, _) => FbUsuario.fromFirestore(snapshot, null),
+      fromFirestore: (snapshot, _) => FbUsuario.fromFirestore(snapshot),
       toFirestore: (user, _) => user.toFirestore(),
     );
 

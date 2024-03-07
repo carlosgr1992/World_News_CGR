@@ -12,7 +12,7 @@ class MuestraFavoritos extends StatefulWidget {
 
 class _MuestraFavoritosState extends State<MuestraFavoritos> {
   List<Noticia> _noticiasFavoritas = [];
-  bool isList = true; // Añadido para cambiar entre vistas
+  bool isList = false; // Añadido para cambiar entre vistas
   bool isLoading = true; // Indicador de carga
 
   @override
