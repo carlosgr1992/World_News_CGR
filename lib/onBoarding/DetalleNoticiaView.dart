@@ -68,24 +68,12 @@ class DetalleNoticiaView extends StatelessWidget {
 
     CollectionReference favoritosRef = FirebaseFirestore.instance.collection('Usuarios').doc(user.uid).collection('Favoritos');
 
-    List favoritos = []; // Definir una lista vacía por ahora
+    // Realizar una consulta para buscar la noticia por su URL
+    QuerySnapshot matchingNoticias = await favoritosRef.where('urlNoticia', isEqualTo: noticia.urlNoticia).limit(1).get();
 
-    // Obtener los documentos de la subcolección "Favoritos"
-    QuerySnapshot favoritosSnapshot = await favoritosRef.get();
-
-    // Iterar sobre los documentos y agregarlos a la lista "favoritos"
-    favoritosSnapshot.docs.forEach((doc) {
-      favoritos.add(doc.data());
-    });
-
-    var match = favoritos.firstWhere(
-          (fav) => fav['title'] == noticia.titulo && fav['urlNoticia'] == noticia.urlNoticia,
-      orElse: () => null,
-    );
-
-    if (match != null) {
+    if (matchingNoticias.docs.isNotEmpty) {
       // La noticia ya está en favoritos, procedemos a eliminarla
-      await favoritosRef.doc(match['id']).delete();
+      await matchingNoticias.docs.first.reference.delete();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Noticia eliminada de favoritos.'),
         duration: Duration(seconds: 2),
@@ -96,7 +84,7 @@ class DetalleNoticiaView extends StatelessWidget {
         'title': noticia.titulo,
         'description': noticia.descripcion,
         'urlToImage': noticia.urlImagen,
-        'url': noticia.urlNoticia,
+        'urlNoticia': noticia.urlNoticia,
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Noticia añadida a favoritos.'),
@@ -104,6 +92,8 @@ class DetalleNoticiaView extends StatelessWidget {
       ));
     }
   }
+
+
 
 
 
