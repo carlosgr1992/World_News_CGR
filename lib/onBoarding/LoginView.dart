@@ -5,16 +5,14 @@ import '../customViews/TextButtonCustom.dart';
 import '../fireStoreObjects/FbUsuario.dart';
 import '../singletone/DataHolder.dart';
 
-
 class LoginView extends StatelessWidget {
-
   final TextEditingController tecEmailController = TextEditingController();
   final TextEditingController tecPassController = TextEditingController();
   late BuildContext _context;
 
   @override
   Widget build(BuildContext context) {
-    _context=context;
+    _context = context;
 
     return Scaffold(
       appBar: AppBar(
@@ -61,29 +59,29 @@ class LoginView extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 120,
-                ),
                 TextButtonCustom(onPressed: onClickLogin, text: "Login"),
-                SizedBox(
-                  width: 50,
-                ),
+                SizedBox(width: 50),
                 TextButtonCustom(onPressed: onClickRegister, text: "Registrar"),
               ],
-            )
+            ),
+            SizedBox(height: 20),
+            TextButton.icon(
+              onPressed: onClickPhoneAccess,
+              icon: Icon(Icons.phone),
+              label: Text("Acceder desde el teléfono"),
+            ),
           ],
         ),
       ),
     );
   }
 
-  void onClickRegister(){
-
+  void onClickRegister() {
     Navigator.of(_context).popAndPushNamed("/registerView");
-
   }
 
   void onClickLogin() async {
@@ -96,8 +94,7 @@ class LoginView extends StatelessWidget {
 
       if (user != null) {
         Navigator.of(_context).popAndPushNamed("/homeView");
-      }
-      else {
+      } else {
         Navigator.of(_context).popAndPushNamed("/registerDataUser");
       }
     } on FirebaseAuthException catch (e) {
@@ -112,4 +109,8 @@ class LoginView extends StatelessWidget {
       }
     }
   }
+
+  void onClickPhoneAccess() {
+    Navigator.of(_context).popAndPushNamed("/loginMobile");
   }
+}
