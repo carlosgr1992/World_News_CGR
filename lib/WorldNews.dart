@@ -27,6 +27,7 @@ class WorldNews extends StatelessWidget {
         '/loginMobile': (context) => LoginMobile(),
       },
       initialRoute: "/splashView",
+      debugShowCheckedModeBanner: false,
     );
   }
 }

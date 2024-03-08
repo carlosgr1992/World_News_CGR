@@ -157,7 +157,7 @@ class _LoginMobileState extends State<LoginMobile> {
   }
 
   void tiempoDeEsperaAcabado(String verificationId) {
-    // Este método se llama cuando se acaba el tiempo de espera para introducir el código de verificación
+
   }
 
   void onClickVolver() {

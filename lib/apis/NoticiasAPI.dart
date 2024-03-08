@@ -40,7 +40,7 @@ class NoticiasAPI {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> decodedData = json.decode(response.body);
-      // Asumiendo que 'articles' es una lista de noticias
+
       final Map<String, dynamic> articleData = decodedData['articles'].firstWhere((article) => article['id'] == noticiaId);
       return Noticia.fromJson(articleData);
     } else {
