@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import '../fireStoreObjects/Noticia.dart';
-
 class DetalleNoticiaView extends StatelessWidget {
   final Noticia? noticia;
 
@@ -42,9 +42,7 @@ class DetalleNoticiaView extends StatelessWidget {
                   '${noticia?.urlNoticia}',
                   style: TextStyle(color: Colors.blueAccent, decoration: TextDecoration.underline),
                   onTap: () {
-                    /* Añadir movimiento al enlace, hacer más adelante ya que es bastante complejo, agregar
-                    url_launcher como dependencia, subir el sdk a 24 y ajustar las versiones para compatibilidad
-                     */
+                    // Código para abrir la URL
                   },
                 ),
               ],
@@ -52,12 +50,27 @@ class DetalleNoticiaView extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.star_border),
-        onPressed: () => gestionarFavoritos(noticia,context),
+      floatingActionButton: Stack(
+        children: [
+          Positioned(
+            bottom: 16,
+            left: 32,
+            child: FloatingActionButton(
+              child: Icon(Icons.share),
+              onPressed: () => _compartirNoticia(noticia),
+            ),
+          ),
+          Positioned(
+            bottom: 16,
+            right: 10,
+            child: FloatingActionButton(
+              child: Icon(Icons.star_border),
+              onPressed: () => gestionarFavoritos(noticia, context),
+            ),
+          ),
+        ],
       ),
     );
-
   }
 
   Future<void> gestionarFavoritos(Noticia? noticia, BuildContext context) async {
@@ -68,18 +81,15 @@ class DetalleNoticiaView extends StatelessWidget {
 
     CollectionReference favoritosRef = FirebaseFirestore.instance.collection('Usuarios').doc(user.uid).collection('Favoritos');
 
-    // Realizar una consulta para buscar la noticia por su URL
     QuerySnapshot matchingNoticias = await favoritosRef.where('urlNoticia', isEqualTo: noticia.urlNoticia).limit(1).get();
 
     if (matchingNoticias.docs.isNotEmpty) {
-      // La noticia ya está en favoritos, procedemos a eliminarla
       await matchingNoticias.docs.first.reference.delete();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Noticia eliminada de favoritos.'),
         duration: Duration(seconds: 2),
       ));
     } else {
-      // La noticia no está en favoritos, procedemos a añadirla
       await favoritosRef.add({
         'title': noticia.titulo,
         'description': noticia.descripcion,
@@ -93,4 +103,11 @@ class DetalleNoticiaView extends StatelessWidget {
     }
   }
 
+  void _compartirNoticia(Noticia? noticia) {
+    if (noticia == null) return;
+    final String url = noticia.urlNoticia;
+    final String titulo = noticia.titulo;
+
+    Share.share('$titulo\n\n$url');
+  }
 }
