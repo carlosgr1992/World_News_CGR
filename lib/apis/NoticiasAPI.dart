@@ -49,4 +49,18 @@ class NoticiasAPI {
     }
   }
 
+  // Búsqueda de noticias por query
+  Future<List<Noticia>> buscarNoticias(String query) async {
+    final url = Uri.parse('$_baseUrl/everything?q=$query&language=es&apiKey=$_apiKey');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> decodedData = json.decode(response.body);
+      final List<dynamic> articles = decodedData['articles'];
+      return articles.map<Noticia>((json) => Noticia.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load news for query $query in Spanish');
+    }
+  }
+
 }

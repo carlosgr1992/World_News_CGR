@@ -12,9 +12,9 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   List<Noticia> _noticias = [];
   bool isList = false; // Predeterminado a false para mostrar GridView
-
   List<String> categorias = ['negocios', 'entretenimiento', 'todos', 'salud', 'ciencia', 'deportes', 'tecnologia'];
   String? categoriaSeleccionada = 'todos'; // Valor inicial.
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -30,6 +30,14 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
+  _buscarNoticias(String query) async {
+    var noticiasApi = NoticiasAPI();
+    var noticias = await noticiasApi.buscarNoticias(query);
+    setState(() {
+      _noticias = noticias;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,34 +48,65 @@ class _HomeViewState extends State<HomeView> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 1.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Text(
-                    'Filtrar por categoría:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Filtrar por categoría:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: categoriaSeleccionada,
+                        onChanged: (String? nuevaCategoria) {
+                          if (nuevaCategoria != null) {
+                            setState(() {
+                              categoriaSeleccionada = nuevaCategoria;
+                              _cargarNoticias(nuevaCategoria);
+                            });
+                          }
+                        },
+                        items: categorias.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    value: categoriaSeleccionada,
-                    onChanged: (String? nuevaCategoria) {
-                      if (nuevaCategoria != null) {
-                        setState(() {
-                          categoriaSeleccionada = nuevaCategoria;
-                          _cargarNoticias(nuevaCategoria);
-                        });
-                      }
-                    },
-                    items: categorias.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
+                SizedBox(height: 0.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 40.0, // Ajustar la altura del TextField
+                        child: TextField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                            hintText: 'Buscar noticias...',
+                            contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        _buscarNoticias(_searchController.text);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -88,16 +127,14 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-
-
   Widget _buildListView() {
     return ListView.builder(
       itemCount: _noticias.length,
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
-        return GestureDetector( // Envuelve el ListTile con GestureDetector
+        return GestureDetector(
           onTap: () {
-            _mostrarDetallesNoticia(noticia); // Llama a la función para mostrar los detalles de la noticia
+            _mostrarDetallesNoticia(noticia);
           },
           child: ListTile(
             leading: SizedBox(
@@ -127,9 +164,6 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-
-
-
   Widget _buildGridView() {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -140,9 +174,9 @@ class _HomeViewState extends State<HomeView> {
       itemBuilder: (context, index) {
         var noticia = _noticias[index];
         var imageUrl = noticia.urlImagen.isNotEmpty ? noticia.urlImagen : 'images/imagenPredeterminada.jpeg';
-        return GestureDetector( // Envuelve el Card con GestureDetector
+        return GestureDetector(
           onTap: () {
-            _mostrarDetallesNoticia(noticia); // Llama a la función para mostrar los detalles de la noticia
+            _mostrarDetallesNoticia(noticia);
           },
           child: Card(
             clipBehavior: Clip.antiAlias,
@@ -176,7 +210,6 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void _mostrarDetallesNoticia(Noticia noticia) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetalleNoticiaView(noticia: noticia))); // Navega a la vista de detalles de la noticia
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetalleNoticiaView(noticia: noticia)));
   }
-
 }
