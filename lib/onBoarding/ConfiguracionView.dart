@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Theme/ThemeNotifier.dart';
 
-
 class ConfiguracionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,6 +19,15 @@ class ConfiguracionView extends StatelessWidget {
             onChanged: (bool value) {
               themeNotifier.toggleTheme();
             },
+          ),
+          SizedBox(height: 20),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).popAndPushNamed("/homeView");
+              },
+              child: Text('Volver'),
+            ),
           ),
         ],
       ),
