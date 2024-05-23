@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import '../fireStoreObjects/Noticia.dart';
+
+
 class DetalleNoticiaView extends StatelessWidget {
   final Noticia? noticia;
 
@@ -54,16 +56,18 @@ class DetalleNoticiaView extends StatelessWidget {
         children: [
           Positioned(
             bottom: 16,
-            left: 32,
+            left: 32, // Ajusta esta distancia según sea necesario
             child: FloatingActionButton(
+              heroTag: 'shareButton', // Asignar un heroTag único
               child: Icon(Icons.share),
               onPressed: () => _compartirNoticia(noticia),
             ),
           ),
           Positioned(
             bottom: 16,
-            right: 10,
+            right: 16,
             child: FloatingActionButton(
+              heroTag: 'favoriteButton', // Asignar un heroTag único
               child: Icon(Icons.star_border),
               onPressed: () => gestionarFavoritos(noticia, context),
             ),
