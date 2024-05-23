@@ -8,6 +8,7 @@ import 'package:world_news/onBoarding/RegisterView.dart';
 import 'package:world_news/onBoarding/LoginView.dart';
 import 'package:world_news/onBoarding/Splash.dart';
 
+import 'onBoarding/ConfiguracionView.dart';
 import 'onBoarding/DetalleNoticiaView.dart';
 
 class WorldNews extends StatelessWidget {
@@ -16,6 +17,7 @@ class WorldNews extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "World News",
+      theme: ThemeData(fontFamily: ""),
       routes: {
         "/loginView": (context) => LoginView(),
         "/registerView": (context) => RegisterView(),
@@ -25,8 +27,9 @@ class WorldNews extends StatelessWidget {
         '/detalleNoticiaView': (context) => DetalleNoticiaView(),
         '/favoritosView': (context) => MuestraFavoritos(),
         '/loginMobile': (context) => LoginMobile(),
+        '/configuracionView': (context) => ConfiguracionView(), // Nueva ruta añadida
       },
-      initialRoute: "/splashView",
+      initialRoute: "/loginView",
       debugShowCheckedModeBanner: false,
     );
   }

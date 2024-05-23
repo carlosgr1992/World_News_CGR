@@ -61,6 +61,14 @@ class DrawerCustom extends StatelessWidget {
                     Navigator.of(context).popAndPushNamed("/favoritosView");
                   },
                 ),
+
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Configuración'),
+                  onTap: () {
+                    Navigator.of(context).popAndPushNamed("/configuracionView");
+                  },
+                ),
                 ListTile(
                   leading: Icon(Icons.home),
                   title: Text('Home'),

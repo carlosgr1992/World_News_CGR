@@ -93,11 +93,4 @@ class DetalleNoticiaView extends StatelessWidget {
     }
   }
 
-
-
-
-
-
-
-
 }
