@@ -8,8 +8,9 @@ import 'firebase_options.dart';
 import 'onBoarding/ConfiguracionView.dart';
 import 'onBoarding/DetalleNoticiaView.dart';
 import 'onBoarding/HomeView.dart';
-import 'onBoarding/LoginMobile.dart';
+// Importa solo desde la ubicación correcta
 import 'onBoarding/LoginView.dart';
+import 'onBoarding/LoginMobile.dart';
 import 'onBoarding/MuestraFavoritos.dart';
 import 'onBoarding/RegisterDataUser.dart';
 import 'onBoarding/RegisterView.dart';
@@ -27,7 +28,7 @@ Future<void> main() async {
     ),
   );
 }
-// Hacemos Stateless el main para poder estar escuchando el cambio del tema y que se actualice en el momento.
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
             '/loginMobile': (context) => LoginMobile(),
             '/configuracionView': (context) => ConfiguracionView(),
           },
-          initialRoute: "/loginView",
+          initialRoute: "/loginMobile",
           debugShowCheckedModeBanner: false,
         );
       },

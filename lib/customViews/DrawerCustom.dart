@@ -81,7 +81,7 @@ class DrawerCustom extends StatelessWidget {
                   title: Text('Logout'),
                   onTap: () async {
                     await _auth.signOut();
-                    Navigator.of(context).popAndPushNamed("/loginView");
+                    Navigator.of(context).popAndPushNamed("/loginMobile");
                   },
                 ),
               ],

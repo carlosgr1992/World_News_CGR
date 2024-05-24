@@ -1,18 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:world_news/onBoarding/HomeView.dart';
-import 'package:world_news/onBoarding/LoginMobile.dart';
 import 'package:world_news/onBoarding/MuestraFavoritos.dart';
 import 'package:world_news/onBoarding/RegisterDataUser.dart';
 import 'package:world_news/onBoarding/RegisterView.dart';
 import 'package:world_news/onBoarding/LoginView.dart';
+import 'package:world_news/onBoarding/LoginMobile.dart';
 import 'package:world_news/onBoarding/Splash.dart';
-
 import 'onBoarding/ConfiguracionView.dart';
 import 'onBoarding/DetalleNoticiaView.dart';
 
 class WorldNews extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,9 +24,9 @@ class WorldNews extends StatelessWidget {
         '/detalleNoticiaView': (context) => DetalleNoticiaView(),
         '/favoritosView': (context) => MuestraFavoritos(),
         '/loginMobile': (context) => LoginMobile(),
-        '/configuracionView': (context) => ConfiguracionView(), // Nueva ruta añadida
+        '/configuracionView': (context) => ConfiguracionView(),
       },
-      initialRoute: "/loginView",
+      initialRoute: "/loginMobile",
       debugShowCheckedModeBanner: false,
     );
   }

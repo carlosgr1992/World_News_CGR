@@ -28,7 +28,7 @@ class _SplashState extends State<Splash> {
         Navigator.of(context).popAndPushNamed("/homeView");
       } else {
         // Si no hay usuario logeado, ve al Login
-        Navigator.of(context).popAndPushNamed("/loginView");
+        Navigator.of(context).popAndPushNamed("/loginMobile");
       }
     }
   }
