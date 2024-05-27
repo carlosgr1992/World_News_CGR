@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../animations/change_screen_animation.dart';
@@ -151,14 +151,19 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
   }
 
   Widget _actionButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: [
-        TextButtonCustom(onPressed: solicitarCodigo, text: "Solicitar código"),
-        SizedBox(width: 20),
-        TextButtonCustom(onPressed: onClickLogin, text: "Login"),
-        SizedBox(width: 20),
-        TextButtonCustom(onPressed: onClickVolver, text: "Volver"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButtonCustom(onPressed: solicitarCodigo, text: "Solicitar código"),
+            SizedBox(width: 20),
+            TextButtonCustom(onPressed: onClickLogin, text: "Login"),
+            SizedBox(width: 20),
+            TextButtonCustom(onPressed: onClickVolver, text: "Volver"),
+          ],
+        ),
+        _accessFromPhoneText(),
       ],
     );
   }
@@ -246,6 +251,33 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
             child: Text("OK"),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _accessFromPhoneText() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(_context).pushNamed("/loginMobile");
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Ionicons.at, color: Colors.blue),
+            SizedBox(width: 8),
+            Text(
+              "Acceso correo electrónico",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
