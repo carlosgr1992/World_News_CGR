@@ -3,6 +3,8 @@ import '../apis/NoticiasAPI.dart';
 import '../customViews/DrawerCustom.dart';
 import '../fireStoreObjects/Noticia.dart';
 import 'DetalleNoticiaView.dart';
+import '../animations/change_screen_animation.dart';
+import '../components/center_widget/center_widget.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -45,74 +47,89 @@ class _HomeViewState extends State<HomeView> {
         title: Text('Noticias'),
       ),
       drawer: DrawerCustom(),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 1.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          Positioned(
+            top: -160,
+            left: -30,
+            child: _topWidget(MediaQuery.of(context).size.width),
+          ),
+          Positioned(
+            bottom: -180,
+            left: -40,
+            child: _bottomWidget(MediaQuery.of(context).size.width),
+          ),
+          CenterWidget(size: MediaQuery.of(context).size),
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 1.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Text(
-                        'Filtrar por categoría:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Filtrar por categoría:',
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue,),
+                          ),
+                        ),
+                        Expanded(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: categoriaSeleccionada,
+                            onChanged: (String? nuevaCategoria) {
+                              if (nuevaCategoria != null) {
+                                setState(() {
+                                  categoriaSeleccionada = nuevaCategoria;
+                                  _cargarNoticias(nuevaCategoria);
+                                });
+                              }
+                            },
+                            items: categorias.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: categoriaSeleccionada,
-                        onChanged: (String? nuevaCategoria) {
-                          if (nuevaCategoria != null) {
-                            setState(() {
-                              categoriaSeleccionada = nuevaCategoria;
-                              _cargarNoticias(nuevaCategoria);
-                            });
-                          }
-                        },
-                        items: categorias.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 0.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 40.0, // Ajustar la altura del TextField
-                        child: TextField(
-                          controller: _searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Buscar noticias...',
-                            contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                    SizedBox(height: 0.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 40.0, // Ajustar la altura del TextField
+                            child: TextField(
+                              controller: _searchController,
+                              decoration: InputDecoration(
+                                hintText: 'Buscar noticias...',
+                                contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        _buscarNoticias(_searchController.text);
-                      },
+                        IconButton(
+                          icon: Icon(Icons.search),
+                          onPressed: () {
+                            _buscarNoticias(_searchController.text);
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: isList ? _buildListView() : _buildGridView(),
+              ),
+              Expanded(
+                child: isList ? _buildListView() : _buildGridView(),
+              ),
+            ],
           ),
         ],
       ),
@@ -123,6 +140,45 @@ class _HomeViewState extends State<HomeView> {
             isList = !isList;
           });
         },
+      ),
+    );
+  }
+
+  Widget _topWidget(double screenWidth) {
+    return Transform.rotate(
+      angle: -35 * 3.14159 / 180,
+      child: Container(
+        width: 1.2 * screenWidth,
+        height: 1.2 * screenWidth,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(150),
+          gradient: const LinearGradient(
+            begin: Alignment(-0.2, -0.8),
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0x007CBFCF),
+              Color(0xB316BFC4),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomWidget(double screenWidth) {
+    return Container(
+      width: 1.5 * screenWidth,
+      height: 1.5 * screenWidth,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          begin: Alignment(0.6, -1.1),
+          end: Alignment(0.7, 0.8),
+          colors: [
+            Color(0xDB4BE8CC),
+            Color(0x005CDBCF),
+          ],
+        ),
       ),
     );
   }
