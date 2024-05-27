@@ -44,7 +44,6 @@ class NoticiasAPI {
       final Map<String, dynamic> articleData = decodedData['articles'].firstWhere((article) => article['id'] == noticiaId);
       return Noticia.fromJson(articleData);
     } else {
-      // Manejar el error como consideres adecuado
       throw Exception('Error al cargar detalles de la noticia: ${response.statusCode}');
     }
   }

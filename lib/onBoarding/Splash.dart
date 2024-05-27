@@ -26,10 +26,9 @@ class _SplashState extends State<Splash> {
       if (usuario != null) {
         // Si el usuario tiene datos en Firestore, ve al Home
         Navigator.of(context).popAndPushNamed("/homeView");
-      } else {
-        // Si no hay usuario logeado, ve al Login
-        Navigator.of(context).popAndPushNamed("/loginMobile");
       }
+    }else if (FirebaseAuth.instance.currentUser == null){
+      Navigator.of(context).popAndPushNamed("/loginMobile");
     }
   }
   @override

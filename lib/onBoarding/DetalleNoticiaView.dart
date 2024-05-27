@@ -56,7 +56,7 @@ class DetalleNoticiaView extends StatelessWidget {
         children: [
           Positioned(
             bottom: 16,
-            left: 32, // Ajusta esta distancia según sea necesario
+            left: 32,
             child: FloatingActionButton(
               heroTag: 'shareButton', // Asignar un heroTag único
               child: Icon(Icons.share),

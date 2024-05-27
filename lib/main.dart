@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
             '/loginMobile': (context) => LoginMobile(),
             '/configuracionView': (context) => ConfiguracionView(),
           },
-          initialRoute: "/loginMobile",
+          initialRoute: "/splashView",
           debugShowCheckedModeBanner: false,
         );
       },
