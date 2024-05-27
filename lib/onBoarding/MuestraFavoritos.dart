@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../apis/NoticiasAPI.dart';
 import '../fireStoreObjects/Noticia.dart';
 import 'DetalleNoticiaView.dart';
+import '../components/center_widget/center_widget.dart';  // Asegúrate de importar este archivo
 
 class MuestraFavoritos extends StatefulWidget {
   @override
@@ -39,7 +40,22 @@ class _MuestraFavoritosState extends State<MuestraFavoritos> {
       appBar: AppBar(
         title: Text('Noticias Favoritas'),
       ),
-      body: isLoading ? Center(child: CircularProgressIndicator()) : isList ? _buildListView() : _buildGridView(),
+      body: Stack(
+        children: [
+          Positioned(
+            top: -160,
+            left: -30,
+            child: _topWidget(MediaQuery.of(context).size.width),
+          ),
+          Positioned(
+            bottom: -180,
+            left: -40,
+            child: _bottomWidget(MediaQuery.of(context).size.width),
+          ),
+          CenterWidget(size: MediaQuery.of(context).size),
+          isLoading ? Center(child: CircularProgressIndicator()) : isList ? _buildListView() : _buildGridView(),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(isList ? Icons.grid_on : Icons.list),
         onPressed: () {
@@ -47,6 +63,45 @@ class _MuestraFavoritosState extends State<MuestraFavoritos> {
             isList = !isList;
           });
         },
+      ),
+    );
+  }
+
+  Widget _topWidget(double screenWidth) {
+    return Transform.rotate(
+      angle: -35 * 3.14159 / 180,
+      child: Container(
+        width: 1.2 * screenWidth,
+        height: 1.2 * screenWidth,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(150),
+          gradient: const LinearGradient(
+            begin: Alignment(-0.2, -0.8),
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0x007CBFCF),
+              Color(0xB316BFC4),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomWidget(double screenWidth) {
+    return Container(
+      width: 1.5 * screenWidth,
+      height: 1.5 * screenWidth,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          begin: Alignment(0.6, -1.1),
+          end: Alignment(0.7, 0.8),
+          colors: [
+            Color(0xDB4BE8CC),
+            Color(0x005CDBCF),
+          ],
+        ),
       ),
     );
   }
