@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../fireStoreObjects/FbUsuario.dart';
-import '../singletone/DataHolder.dart';
+import '../singleton/DataHolder.dart';
 
 class Splash extends StatefulWidget {
   @override
