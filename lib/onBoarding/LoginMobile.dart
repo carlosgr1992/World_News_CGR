@@ -6,7 +6,7 @@ import '../animations/change_screen_animation.dart';
 import '../components/center_widget/center_widget.dart';
 import '../customViews/TextButtonCustom.dart';
 import '../fireStoreObjects/FbUsuario.dart';
-import '../singletone/DataHolder.dart';
+import '../singleton/DataHolder.dart';
 
 class LoginMobile extends StatefulWidget {
   static const String id = 'loginView';
