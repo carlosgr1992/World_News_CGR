@@ -61,7 +61,7 @@ class CenterWidget extends StatelessWidget {
       height,
     );
     path.lineTo(0, height);
-    path.close;
+    path.close();
 
     return Stack(
       children: [

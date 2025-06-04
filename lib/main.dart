@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'Theme/ThemeNotifier.dart';
-import 'firebase_options.dart';
 import 'WorldNews.dart';
 import 'firebase_options.dart';
 import 'onBoarding/ConfiguracionView.dart';
